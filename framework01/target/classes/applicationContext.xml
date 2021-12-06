@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--    <bean id="coffeeBean" class="CoffeeBean">-->
+<!--        <property name="flavor">-->
+<!--            <value>浓醇</value>-->
+<!--        </property>-->
+    <bean id="espressoBean" class="edu.soft2.coffee.EspressoBean">
+            <property name="flavor"><value>(意大利)浓缩咖啡</value></property>
+    </bean>
+
+    <bean id="mocaBean" class="edu.soft2.coffee.MocaCoffee">
+    <property name="flavor"><value>摩卡咖啡</value></property>
+    </bean>
+
+    <bean id="coffeeMachine" class="edu.soft2.coffee.CoffeeMachine">
+        <property name="color" value="红"></property>
+<!--    <property name="coffeeBean" ref="mocaBean"></property>-->
+        <property name="coffeeBean">
+            <bean id="MocaBean" class="edu.soft2.coffee.MocaCoffee">
+            <property name="flavor" value="摩卡"></property>
+            </bean>
+        </property>
+    </bean>
+
+
+
+    <context:annotation-config/>
+    <!--开启注解扫描，框架会自动扫描-->
+    <context:component-scan base-package="edu.soft2"/>
+    <!--开启aop注解，使得java类的aop注解生效-->
+    <aop:aspectj-autoproxy/>
+    <!--开启代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+<!--    配置目标类[即实现哪个类]
+    <bean id="helloworldService" class="HelloworldService"/>
+&lt;!&ndash;       配置切面类&ndash;&gt;
+            <bean id="helloworldAspect" class="HelloworldAspect"/>
+&lt;!&ndash;    配置AOP&ndash;&gt;
+&lt;!&ndash;    开启代理，默认值为false&ndash;&gt;
+    <aop:config proxy-target-class="true">
+&lt;!&ndash;        定义切入点&ndash;&gt;
+            <aop:pointcut expression="execution(* edu.soft2.ioc.service..*.*(..))" id="helloworldPointcut"/>
+&lt;!&ndash;        切面&ndash;&gt;
+    <aop:aspect ref="helloworldAspect">
+&lt;!&ndash;        前置增强配置：哪个切入点的哪个方法&ndash;&gt;
+            <aop:before pointcut-ref="helloworldPointcut" method="beforeAdvice"/>
+&lt;!&ndash;        后置增强配置&ndash;&gt;
+    <aop:after pointcut-ref="helloworldPointcut" method="afterAdvice"/>
+&lt;!&ndash;        一个切入点的引用&ndash;&gt;
+    </aop:aspect>
+    </aop:config>-->
+<!--
+加载注解的bean的组件-->
+
+<!--    <bean id="colorInk" class="ColorInk">-->
+<!--        &lt;!&ndash;将class对应的类的对象，作为一个bean对应IoC容器中，由其负责管理（创建对象）&ndash;&gt;-->
+<!--            <property name="type" value="彩色"></property>-->
+<!--    </bean>-->
+
+<!--    <bean id="greyInk" class="ColorInk">-->
+<!--        <property name="type" value="灰色"></property>-->
+<!--    </bean>-->
+
+
+<!--    <bean id="printer" class="Printer">       &lt;!&ndash;bean：装配一个bean到IoC容器中，此bean从此由IoC管理-->
+<!--    &ndash;&gt;-->
+<!--    <property name="ink" ref="greyInk"></property>       &lt;!&ndash;由IoC将id为greyInk的bean对象注入(DI)到此处&ndash;&gt;-->
+<!--        <property name="paper" ref="a5Paper"></property>-->
+<!--    </bean>-->
+
+<!--    <bean id="a4Paper" class="A4Paper">-->
+<!--    <property name="size" value="A4"></property>-->
+<!--</bean>-->
+
+<!--    <bean id="a5Paper" class="A5Paper">-->
+<!--        <property name="size" value="A5"></property>-->
+<!--    </bean>-->
+</beans>
