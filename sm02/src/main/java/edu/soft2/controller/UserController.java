@@ -4,13 +4,16 @@ import edu.soft2.pojo.User;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -57,7 +60,7 @@ public class UserController {
         return "hello";
     }
     @RequestMapping(value = "upload",method = {RequestMethod.POST})
-    public String upload(MultipartFile image,HttpServletRequest request) throws IOException {
+    public String upload(MultipartFile image, HttpServletRequest request, HttpServletResponse response, Map<String,Object> map) throws IOException {
         System.out.println("------upload（）------");
         //获取文件输出流对象
         InputStream is= image.getInputStream();
@@ -70,7 +73,16 @@ public class UserController {
         String newname= doFilename(filename);
         OutputStream os=new FileOutputStream(new File(realPath,filename));//
         int size= IOUtils.copy(is,os);//完成文件拷贝的大小（字节）
-        System.out.println("上传"+"文件到"+realPath+"完毕，共计"+size+"字节，上传后文件名为"+newname+".");
+        if (size > 0) {
+            map.put("res","ok");
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out=response.getWriter();
+            out.println("<script language=/");
+
+
+            System.out.println("上传"+"文件到"+realPath+"完毕，共计"+size+"字节，上传后文件名为"+newname+".");
+
+        }
         //资源
         os.close();is.close();
         return "welcome";//提示框
@@ -87,6 +99,10 @@ public class UserController {
             is= imageFile.getInputStream();
             //获取文件名称
             String filename=imageFile.getOriginalFilename();
+            if (filename.equals("")) {
+                System.out.println("空字符串，进入下一轮循环");
+                continue;//结束本轮循环，进入下一轮循环
+            }
             //设置上传路线
             String realPath=request.getServletContext().getRealPath("/images");
             System.out.println("上传路径="+realPath);
@@ -106,7 +122,16 @@ public class UserController {
         //
         String extension= FilenameUtils.getExtension(filename);
         String uuid=UUID.randomUUID().toString();
-        return uuid+"."+extension;
+        return uuid+"."+extension;//上传文件的新名字
+    }
+    @RequestMapping(value = "/download/{filename}")
+    public void download(@PathVariable String filename,HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String realPath=request.getServletContext().getRealPath("/imges");//从哪里下载的
+        System.out.println("下载路径realPath="+realPath);
+        InputStream is=new FileInputStream(new File(realPath,filename));
+        OutputStream os= response.getOutputStream();
+        IOUtils.copy(is,os);//拷贝
+        os.close();is.close();//关闭io流
     }
 }
 

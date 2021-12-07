@@ -33,7 +33,7 @@
 
 <!--    <mvc:resources mapping="/css/**" location=""/>-->
     <mvc:resources mapping="/statics/**" location="/statics/"/>
-<!--    <mvc:resources mapping="/images/**" location="/"-->
+    <mvc:resources mapping="/images/**" location="/images/"/>
 
     <!--文件解析器的配置-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
