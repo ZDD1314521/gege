@@ -12,7 +12,7 @@
 </head>
 <body>
 孤独百年，寂静如眠。
-<h1>张某东，菜逼</h1>
+<h1>张某东</h1>
 <form action="${pageContext.request.contextPath}/param2/reg" method="post">
       用户名<input name="username"><br>
        密码<input name="pwd"><br>
