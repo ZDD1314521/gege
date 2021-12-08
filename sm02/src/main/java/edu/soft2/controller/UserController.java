@@ -126,7 +126,7 @@ public class UserController {
     }
     @RequestMapping(value = "/download/{filename}")
     public void download(@PathVariable String filename,HttpServletRequest request,HttpServletResponse response) throws IOException {
-        String realPath=request.getServletContext().getRealPath("/imges");//从哪里下载的
+        String realPath=request.getServletContext().getRealPath("/images");//从哪里下载的
         System.out.println("下载路径realPath="+realPath);
         InputStream is=new FileInputStream(new File(realPath,filename));
         OutputStream os= response.getOutputStream();
