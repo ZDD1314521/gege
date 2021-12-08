@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>孤寂</title>
+    <title>孤寂天下</title>
 </head>
 <body>
 孤独百年，寂静如眠。
