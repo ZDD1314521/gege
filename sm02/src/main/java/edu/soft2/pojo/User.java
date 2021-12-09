@@ -16,6 +16,6 @@ public class User {
     String pwd;
     int age;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    Date birthday;
-    Address address;
+    Date birthday;//springmvc进行类型转换
+    Address address;//自定义对象类型
 }

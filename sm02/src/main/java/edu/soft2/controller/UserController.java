@@ -1,6 +1,7 @@
 package edu.soft2.controller;
 
 import edu.soft2.pojo.User;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.Map;
 import java.util.UUID;
 
@@ -132,6 +134,23 @@ public class UserController {
         OutputStream os= response.getOutputStream();
         IOUtils.copy(is,os);//拷贝
         os.close();is.close();//关闭io流
+    }
+
+    //针对中文名称，需要分浏览器来处理
+    public String doFileName2(HttpServletRequest request, String filename){
+        try{
+            //获取请求头部信息的User-Agent对应的值
+            String userAgent=request.getHeader("User-Agent");
+            if(userAgent.toUpperCase().indexOf("FIREFOX")>0){//火狐浏览器
+                filename= "=?UTF-8?B?"+(new String(Base64.encodeBase64(filename.getBytes("utf-8"))))+"?=";
+            }else{//其他浏览器
+                filename  = URLEncoder.encode(filename,"utf-8");
+            }
+            System.out.println("下载文件名="+filename);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return filename;
     }
 }
 
