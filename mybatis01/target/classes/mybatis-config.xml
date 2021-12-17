@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="db.properties"/>
+<!--    别名-->
+    <typeAliases>
+        <typeAlias type="edu.soft2.pojo.Customers" alias="cust"/>
+    </typeAliases>
+
+    <environments default="mysql">
+        <environment id="mysql"><!--mysql数据库-->
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED"><!--POOLED:myBatis自带链接池-->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="a"><!--Oracle数据库-->
+            <transactionManager type=""></transactionManager>
+            <dataSource type=""></dataSource>
+        </environment>
+
+
+        <environment id="c">
+            <transactionManager type=""></transactionManager>
+            <dataSource type=""></dataSource>
+        </environment>
+
+    </environments>
+
+    <mappers>
+        <mapper resource="CustomersDao.xml"></mapper>
+    </mappers>
+
+</configuration>

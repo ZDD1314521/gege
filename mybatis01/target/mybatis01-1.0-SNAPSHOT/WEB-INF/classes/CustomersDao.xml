@@ -1,0 +1,43 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--原则，简明知意-->
+<!--要实现的Dao接口权限命名-->
+<mapper namespace="edu.soft2.dao.CustomersDao">
+
+    <resultMap id="customer" type="edu.soft2.pojo.Customers">
+        <id property="uid" column="uid"/>
+        <result property="username" column="username"/>
+        <result property="pwd" column="pwd"/>
+        <result property="qq" column="qq"/>
+        <result property="nickname" column="nickname"/>
+        <result property="birthday" column="birthday"/>
+        <result property="createtime" column="createtime"/>
+<result property="headpic" column="headpic"/><!--   property实体类的属性名，column是数据表的列（字段）名        -->
+    </resultMap>
+
+<!--    实现Dao接口的方法-->
+    <select id="findCustById" parameterType="int" resultMap="customer">
+        select * from user where uid=#{id}
+    </select>
+    <select id="findAllCusts" resultType="cust">
+        select * from user
+    </select>
+    <select id="findCustByIdAndPwd" resultType="cust">
+        SELECT * from user WHERE 1=1
+        <if test="id != null and id != ''">
+            and username=#{id}
+        </if>
+        <if test="pwd != null and pwd != ''">
+            and upwd=#{pwd}
+        </if>
+
+    </select>
+    <insert id="addCust" useGeneratedKeys="true" keyProperty="uid">
+        insert into user(username,upwd) values(#{name},#{pwd})
+    </insert>
+    <delete id="delCust" parameterType="int">
+        delete from user where uid=#{id}
+    </delete>
+    <select id="updateCust">
+        update user set username=#{newName} where uid=#{id}
+    </select>
+</mapper>
